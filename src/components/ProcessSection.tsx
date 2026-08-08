@@ -79,15 +79,13 @@ export default function ProcessSection() {
     <section id="process" className="py-24 lg:py-32 px-5 sm:px-8 lg:px-16 xl:px-24 bg-white overflow-hidden" ref={sectionRef}>
       <div className="max-w-7xl mx-auto">
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-          <div className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full bg-white border border-slate-200">
-            <span className="text-xs font-semibold tracking-wider uppercase text-slate-900">
-              How We Work
-            </span>
+          <div className="mb-4">
+            <span className="text-xs font-bold tracking-[0.2em] text-slate-500 uppercase">How We Work</span>
           </div>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 leading-[1.08] tracking-tight mb-6">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 mb-6">
             Our Development Process
           </h2>
-          <p className="text-lg text-slate-900/60 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-slate-600 max-w-2xl mx-auto text-lg leading-relaxed">
             A proven, transparent methodology designed to deliver premium digital solutions on time and beyond expectations.
           </p>
         </div>

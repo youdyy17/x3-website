@@ -49,23 +49,19 @@ export default function AboutSection() {
   }, [isVisible]);
 
   return (
-    <section id="about" className="py-24 lg:py-32 px-5 sm:px-8 lg:px-16 xl:px-24 bg-white" ref={ref}>
+    <section id="about" className="py-20 lg:py-28 px-5 sm:px-8 lg:px-16 xl:px-24 bg-white" ref={ref}>
       <div className="max-w-7xl mx-auto">
-        <div className={`grid lg:grid-cols-2 gap-16 lg:gap-24 items-center transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
+        <div className={`grid lg:grid-cols-2 gap-16 items-center transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
           
           {/* Text Content */}
           <div>
-            <div className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full bg-white border border-slate-200">
-              <span className="text-xs font-semibold tracking-wider uppercase text-slate-900">
-                Who We Are
-              </span>
+            <div className="mb-4">
+              <span className="text-xs font-bold tracking-[0.2em] text-slate-500 uppercase">Who We Are</span>
             </div>
-            
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 leading-[1.08] tracking-tight mb-8">
-              Engineering the Next Generation of Software
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
+              About <span className="text-slate-900">X3</span>
             </h2>
-            
-            <div className="space-y-6 text-slate-900/60 text-lg leading-relaxed">
+            <div className="space-y-6 text-slate-600 text-lg leading-relaxed">
               <p>
                 X3 Software Solution is a premier technology company founded on the principle that exceptional software can transform businesses. We specialize in designing, developing, and deploying custom software solutions that address complex challenges.
               </p>
@@ -76,22 +72,22 @@ export default function AboutSection() {
           </div>
 
           {/* Stats Grid */}
-          <div className="grid grid-cols-2 gap-x-8 gap-y-16 pl-0 lg:pl-12 border-l-0 lg:border-l border-slate-100">
-            <div className="flex flex-col gap-3">
-              <div className="text-5xl sm:text-6xl lg:text-7xl font-bold text-slate-900 tracking-tighter">{years}+</div>
-              <div className="text-sm font-semibold text-slate-500 uppercase tracking-wider">Years Experience</div>
+          <div className="grid grid-cols-2 gap-6">
+            <div className="bg-white shadow-sm border border-slate-200 border border-slate-200 rounded-2xl p-8 backdrop-blur-sm transition-transform hover:-translate-y-1">
+              <div className="text-4xl sm:text-5xl font-bold font-silkscreen text-slate-900 mb-2">{years}+</div>
+              <div className="text-slate-600 font-medium">Years Experience</div>
             </div>
-            <div className="flex flex-col gap-3">
-              <div className="text-5xl sm:text-6xl lg:text-7xl font-bold text-slate-900 tracking-tighter">{projects}+</div>
-              <div className="text-sm font-semibold text-slate-500 uppercase tracking-wider">Projects Delivered</div>
+            <div className="bg-white shadow-sm border border-slate-200 border border-slate-200 rounded-2xl p-8 backdrop-blur-sm transition-transform hover:-translate-y-1">
+              <div className="text-4xl sm:text-5xl font-bold font-silkscreen text-slate-900 mb-2">{projects}+</div>
+              <div className="text-slate-600 font-medium">Projects Delivered</div>
             </div>
-            <div className="flex flex-col gap-3">
-              <div className="text-5xl sm:text-6xl lg:text-7xl font-bold text-slate-900 tracking-tighter">{clients}+</div>
-              <div className="text-sm font-semibold text-slate-500 uppercase tracking-wider">Happy Clients</div>
+            <div className="bg-white shadow-sm border border-slate-200 border border-slate-200 rounded-2xl p-8 backdrop-blur-sm transition-transform hover:-translate-y-1">
+              <div className="text-4xl sm:text-5xl font-bold font-silkscreen text-slate-900 mb-2">{clients}+</div>
+              <div className="text-slate-600 font-medium">Happy Clients</div>
             </div>
-            <div className="flex flex-col gap-3">
-              <div className="text-5xl sm:text-6xl lg:text-7xl font-bold text-slate-900 tracking-tighter">{team}+</div>
-              <div className="text-sm font-semibold text-slate-500 uppercase tracking-wider">Team Members</div>
+            <div className="bg-white shadow-sm border border-slate-200 border border-slate-200 rounded-2xl p-8 backdrop-blur-sm transition-transform hover:-translate-y-1">
+              <div className="text-4xl sm:text-5xl font-bold font-silkscreen text-slate-900 mb-2">{team}+</div>
+              <div className="text-slate-600 font-medium">Team Members</div>
             </div>
           </div>
 
