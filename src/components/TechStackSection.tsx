@@ -59,15 +59,20 @@ export default function TechStackSection() {
   }, []);
 
   return (
-    <section id="technologies" className="py-20 lg:py-28 px-5 sm:px-8 lg:px-16 xl:px-24 bg-transparent" ref={ref}>
+    <section id="technologies" className="py-24 lg:py-32 px-5 sm:px-8 lg:px-16 xl:px-24 bg-slate-50 overflow-hidden" ref={ref}>
       <div className="max-w-7xl mx-auto">
         <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <div className="mb-4">
-            <span className="text-xs font-bold tracking-[0.2em] text-slate-500 uppercase">Our Expertise</span>
+          <div className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full bg-white border border-slate-200 shadow-sm">
+            <span className="text-xs font-semibold tracking-wider uppercase text-slate-900">
+              Technology Stack
+            </span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900">
-            Technologies We Work With
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 leading-[1.08] tracking-tight mb-6">
+            Powered by Modern Tech
           </h2>
+          <p className="text-lg text-slate-900/60 leading-relaxed max-w-2xl mx-auto">
+            We leverage industry-leading tools and frameworks to build scalable, high-performance solutions.
+          </p>
         </div>
 
         <div className={`transition-all duration-700 delay-200 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>

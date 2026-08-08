@@ -85,16 +85,18 @@ export default function PortfolioSection() {
   const filteredProjects = projects.filter(p => activeCategory === 'All' || p.category === activeCategory);
 
   return (
-    <section id="portfolio" className="py-20 lg:py-28 px-5 sm:px-8 lg:px-16 xl:px-24 bg-slate-50" ref={ref}>
+    <section id="portfolio" className="py-24 lg:py-32 px-5 sm:px-8 lg:px-16 xl:px-24 bg-white" ref={ref}>
       <div className="max-w-7xl mx-auto">
         <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <div className="mb-4">
-            <span className="text-xs font-bold tracking-[0.2em] text-slate-500 uppercase">Our Work</span>
+          <div className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full bg-white border border-slate-200">
+            <span className="text-xs font-semibold tracking-wider uppercase text-slate-900">
+              Our Work
+            </span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 leading-[1.08] tracking-tight mb-6">
             Featured Projects
           </h2>
-          <p className="text-slate-600 max-w-2xl mx-auto text-lg">
+          <p className="text-lg text-slate-900/60 leading-relaxed max-w-2xl mx-auto">
             Explore our latest digital solutions and see how we help businesses transform and grow through innovative technology.
           </p>
         </div>

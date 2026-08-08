@@ -60,7 +60,7 @@ export default function FooterSection() {
   return (
     <footer
       id="contact"
-      className="bg-transparent border-t border-slate-200 pt-20 pb-10 px-5 sm:px-8 lg:px-16 xl:px-24 relative z-10"
+      className="bg-transparent border-t border-slate-200 pt-24 lg:pt-32 pb-12 px-5 sm:px-8 lg:px-16 xl:px-24 relative z-10"
     >
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16">
