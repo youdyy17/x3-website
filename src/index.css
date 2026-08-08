@@ -1,0 +1,280 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-silkscreen: "Silkscreen", cursive;
+}
+
+@layer base {
+  body {
+    @apply font-sans antialiased;
+    background-color: #fafafa;
+    color: white;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #121212;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+}
+
+/* ===== Aurora Background ===== */
+.aurora-blob {
+  position: absolute;
+  filter: blur(120px);
+  z-index: 0;
+  opacity: 0.5;
+  border-radius: 50%;
+  animation: auroraFloat 25s infinite ease-in-out alternate;
+  will-change: transform;
+}
+
+.aurora-blob-1 {
+  top: -15%;
+  left: -10%;
+  width: 45vw;
+  height: 45vw;
+  background: radial-gradient(circle, rgba(120, 50, 255, 0.05) 0%, rgba(0, 0, 0, 0) 70%);
+  animation-delay: 0s;
+}
+
+.aurora-blob-2 {
+  bottom: -20%;
+  right: -10%;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, rgba(50, 150, 255, 0.04) 0%, rgba(0, 0, 0, 0) 70%);
+  animation-delay: -7s;
+}
+
+.aurora-blob-3 {
+  top: 40%;
+  left: 35%;
+  width: 35vw;
+  height: 35vw;
+  background: radial-gradient(circle, rgba(200, 50, 150, 0.03) 0%, rgba(0, 0, 0, 0) 70%);
+  animation-delay: -14s;
+}
+
+@keyframes auroraFloat {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(3%, 6%) scale(1.05);
+  }
+  66% {
+    transform: translate(-3%, 3%) scale(0.95);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+/* ===== Section fade-in animation ===== */
+.section-fade-in {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.section-fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== 3D Device Mockup ===== */
+.device-scene {
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+.device-float {
+  animation: deviceFloat 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes deviceFloat {
+  0%, 100% {
+    transform: translateY(0px) rotateX(2deg) rotateY(-8deg);
+  }
+  50% {
+    transform: translateY(-12px) rotateX(0deg) rotateY(-6deg);
+  }
+}
+
+.phone-float {
+  animation: phoneFloat 6s ease-in-out infinite;
+  animation-delay: -1.5s;
+  will-change: transform;
+}
+
+@keyframes phoneFloat {
+  0%, 100% {
+    transform: translateY(0px) rotateX(3deg) rotateY(-5deg);
+  }
+  50% {
+    transform: translateY(-8px) rotateX(1deg) rotateY(-3deg);
+  }
+}
+
+/* ===== Gradient text utility ===== */
+.gradient-text {
+  background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, #ffffff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ===== Subtle grid pattern ===== */
+.grid-pattern {
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* ===== Glow effects ===== */
+.glow-violet {
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.05),
+              0 0 80px rgba(255, 255, 255, 0.02);
+}
+
+.glow-violet-sm {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05),
+              0 0 40px rgba(255, 255, 255, 0.02);
+}
+
+/* ===== Scroll indicator ===== */
+.scroll-indicator {
+  animation: scrollBounce 2s ease-in-out infinite;
+}
+
+@keyframes scrollBounce {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(8px);
+    opacity: 0.5;
+  }
+}
+
+/* ===== Process timeline connector ===== */
+.timeline-connector {
+  position: relative;
+}
+.timeline-connector::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -50%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.05));
+}
+
+/* ===== Glass card base ===== */
+.glass-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+              0 0 24px rgba(0, 0, 0, 0.05);
+}
+
+/* ===== Tech tag ===== */
+.tech-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+  transition: all 0.2s;
+}
+
+.tech-tag:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ===== Button styles ===== */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: 9999px;
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(to bottom, #2B2B2B, #101010);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: 9999px;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-secondary:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+/* ===== Section divider ===== */
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.05) 20%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.05) 80%, transparent);
+}
