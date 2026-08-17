@@ -49,19 +49,19 @@ export default function AboutSection() {
   }, [isVisible]);
 
   return (
-    <section id="about" className="py-20 lg:py-28 px-5 sm:px-8 lg:px-16 xl:px-24 bg-white" ref={ref}>
+    <section id="about" className="py-20 lg:py-28 px-5 sm:px-8 lg:px-16 xl:px-24 bg-surface" ref={ref}>
       <div className="max-w-7xl mx-auto">
         <div className={`grid lg:grid-cols-2 gap-16 items-center transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
           
           {/* Text Content */}
           <div>
             <div className="mb-4">
-              <span className="text-xs font-bold tracking-[0.2em] text-slate-500 uppercase">Who We Are</span>
+              <span className="text-xs font-bold tracking-[0.2em] text-fg-subtle uppercase">Who We Are</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
-              About <span className="text-slate-900">X3</span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-fg mb-6">
+              About <span className="text-fg">X3</span>
             </h2>
-            <div className="space-y-6 text-slate-600 text-lg leading-relaxed">
+            <div className="space-y-6 text-fg-muted text-lg leading-relaxed">
               <p>
                 X3 Software Solution is a premier technology company founded on the principle that exceptional software can transform businesses. We specialize in designing, developing, and deploying custom software solutions that address complex challenges.
               </p>
@@ -73,21 +73,21 @@ export default function AboutSection() {
 
           {/* Stats Grid */}
           <div className="grid grid-cols-2 gap-6">
-            <div className="bg-white shadow-sm border border-slate-200 border border-slate-200 rounded-2xl p-8 backdrop-blur-sm transition-transform hover:-translate-y-1">
-              <div className="text-4xl sm:text-5xl font-bold font-silkscreen text-slate-900 mb-2">{years}+</div>
-              <div className="text-slate-600 font-medium">Years Experience</div>
+            <div className="bg-surface border border-line shadow-card rounded-2xl p-8 transition-transform hover:-translate-y-1">
+              <div className="text-4xl sm:text-5xl font-bold font-silkscreen text-fg mb-2">{years}+</div>
+              <div className="text-fg-muted font-medium">Years Experience</div>
             </div>
-            <div className="bg-white shadow-sm border border-slate-200 border border-slate-200 rounded-2xl p-8 backdrop-blur-sm transition-transform hover:-translate-y-1">
-              <div className="text-4xl sm:text-5xl font-bold font-silkscreen text-slate-900 mb-2">{projects}+</div>
-              <div className="text-slate-600 font-medium">Projects Delivered</div>
+            <div className="bg-surface border border-line shadow-card rounded-2xl p-8 transition-transform hover:-translate-y-1">
+              <div className="text-4xl sm:text-5xl font-bold font-silkscreen text-fg mb-2">{projects}+</div>
+              <div className="text-fg-muted font-medium">Projects Delivered</div>
             </div>
-            <div className="bg-white shadow-sm border border-slate-200 border border-slate-200 rounded-2xl p-8 backdrop-blur-sm transition-transform hover:-translate-y-1">
-              <div className="text-4xl sm:text-5xl font-bold font-silkscreen text-slate-900 mb-2">{clients}+</div>
-              <div className="text-slate-600 font-medium">Happy Clients</div>
+            <div className="bg-surface border border-line shadow-card rounded-2xl p-8 transition-transform hover:-translate-y-1">
+              <div className="text-4xl sm:text-5xl font-bold font-silkscreen text-fg mb-2">{clients}+</div>
+              <div className="text-fg-muted font-medium">Happy Clients</div>
             </div>
-            <div className="bg-white shadow-sm border border-slate-200 border border-slate-200 rounded-2xl p-8 backdrop-blur-sm transition-transform hover:-translate-y-1">
-              <div className="text-4xl sm:text-5xl font-bold font-silkscreen text-slate-900 mb-2">{team}+</div>
-              <div className="text-slate-600 font-medium">Team Members</div>
+            <div className="bg-surface border border-line shadow-card rounded-2xl p-8 transition-transform hover:-translate-y-1">
+              <div className="text-4xl sm:text-5xl font-bold font-silkscreen text-fg mb-2">{team}+</div>
+              <div className="text-fg-muted font-medium">Team Members</div>
             </div>
           </div>
 

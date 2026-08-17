@@ -42,130 +42,252 @@ const steps = [
 
 export default function ProcessSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const measureRef = useRef<() => void>(() => {});
   const [isVisible, setIsVisible] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
+  const [hovered, setHovered] = useState<number | null>(null);
+  // Step 0 is the start of the line, so it has no incoming segment to light up.
+  const hoverSegment = hovered !== null && hovered > 0 ? hovered : null;
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setIsVisible(true);
+        // Layout is settled by the time the section scrolls into view, so this
+        // is the earliest honest reading — the mount-time one can land before
+        // the track has a width and report step 0 for a rail that should
+        // already be part-filled.
+        measureRef.current();
+      },
       { threshold: 0.1 }
     );
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
 
+  // A step counts as reached once its node has scrolled into the visible part
+  // of the track — the horizontal port of the old `rect.top < innerHeight * 0.6`
+  // rule. Deliberately not scrollLeft/scrollWidth: several cards are on screen
+  // at desktop widths, and a scroll ratio would leave visible ones dimmed.
   useEffect(() => {
-    const handleScroll = () => {
-      const stepElements = document.querySelectorAll('.process-step');
-      let currentStep = 0;
-      
-      stepElements.forEach((el, index) => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    // Scroll fires far more often than once per frame, and each measure() call
+    // forces synchronous layout. Coalesce to one measurement per frame.
+    let frame = 0;
+
+    const measure = () => {
+      frame = 0;
+      const trackRect = track.getBoundingClientRect();
+      if (!trackRect.width) return;
+      let current = 0;
+      track.querySelectorAll('.process-step').forEach((el, index) => {
         const rect = el.getBoundingClientRect();
-        // If the top of the element is above the middle of the screen
-        if (rect.top < window.innerHeight * 0.6) {
-          currentStep = index;
-        }
+        // Measured off the real cards rather than their width as a constant,
+        // so this stays correct if the card size changes.
+        const nodeCenter = rect.left + rect.width / 2;
+        if (nodeCenter < trackRect.right) current = index;
       });
-      setActiveStep(currentStep);
+      setActiveStep(current);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    // Trigger once on mount
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
+    const schedule = () => {
+      // Scrolling slides the cards beneath the cursor without reliably firing
+      // pointerenter/leave, which strands the highlight on a card that has since
+      // moved away. Drop it here; onPointerMove re-establishes it on the card
+      // actually under the cursor as soon as the mouse moves again.
+      setHovered(null);
+      if (frame) return;
+      frame = requestAnimationFrame(measure);
+    };
+    measureRef.current = schedule;
+
+    track.addEventListener('scroll', schedule, { passive: true });
+    // Which cards fit on screen changes with the viewport.
+    window.addEventListener('resize', schedule);
+    measure();
+    return () => {
+      track.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', schedule);
+      if (frame) cancelAnimationFrame(frame);
+    };
   }, []);
 
   return (
-    <section id="process" className="py-24 lg:py-32 px-5 sm:px-8 lg:px-16 xl:px-24 bg-white overflow-hidden" ref={sectionRef}>
+    <section id="process" className="py-24 lg:py-32 px-5 sm:px-8 lg:px-16 xl:px-24 bg-surface overflow-hidden" ref={sectionRef}>
       <div className="max-w-7xl mx-auto">
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
           <div className="mb-4">
-            <span className="text-xs font-bold tracking-[0.2em] text-slate-500 uppercase">How We Work</span>
+            <span className="text-xs font-bold tracking-[0.2em] text-fg-subtle uppercase">How We Work</span>
           </div>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 mb-6">
-            Our Development Process
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-fg mb-6">
+            From first call to production.
           </h2>
-          <p className="text-slate-600 max-w-2xl mx-auto text-lg leading-relaxed">
+          <p className="text-fg-muted max-w-2xl mx-auto text-lg leading-relaxed">
             A proven, transparent methodology designed to deliver premium digital solutions on time and beyond expectations.
           </p>
         </div>
 
-        <div className="relative max-w-5xl mx-auto">
-          {/* Central Line */}
-          <div className="absolute left-[28px] lg:left-1/2 top-0 bottom-0 w-[2px] bg-slate-100 -translate-x-1/2 z-0">
-            {/* Animated Fill Line */}
-            <div 
-              className="absolute top-0 left-0 w-full bg-slate-900 transition-all duration-700 ease-out"
-              style={{ height: `${((activeStep) / (steps.length - 1)) * 100}%` }}
-            ></div>
-          </div>
+        <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
+          {/* The scroll viewport. Focusable so the timeline is reachable with
+              arrow keys — page scroll used to drive it when this was vertical,
+              and a trackpad-only horizontal scroller would be a regression. */}
+          <div
+            ref={trackRef}
+            tabIndex={0}
+            role="region"
+            aria-label="Our process, step by step"
+            // `overflow-y-clip` is explicit because `overflow-x-auto` alone would
+            // compute the other axis to `auto`, making this a vertical scroll
+            // container as well — one the hovered node's ring and the cards' lift
+            // are enough to give a stray few pixels of scrollable height. `clip`
+            // (not `hidden`) leaves no scrollport at all, so keyboard focus and the
+            // trackpad can't nudge it either.
+            className="overflow-x-auto overflow-y-clip snap-x snap-mandatory pb-5 rounded-2xl"
+          >
+            {/* The rail lives in here, alongside the cards, so it scrolls with
+                them instead of hanging fixed across the viewport. `--step-w` is
+                the single source of truth for card width, and `--node-pad` for
+                the headroom above the nodes: the rail's inset and vertical
+                position are derived from them, so they can't drift apart.
+                The padding is what keeps a hovered node's scale + ring from
+                being clipped — `overflow-x-auto` forces overflow-y to clip too. */}
+            <div className="relative flex w-max gap-6 pt-[var(--node-pad)] [--node-pad:24px] [--step-w:300px]">
+              {/* Rail, inset by half a card at each end so it starts and ends on
+                  a node's center instead of running off both outer edges. That
+                  span is what makes the fill percentage below line up with the
+                  nodes it's supposed to connect. 2rem = half the node's height. */}
+              <div className="absolute top-[calc(var(--node-pad)+2rem)] left-[calc(var(--step-w)/2)] right-[calc(var(--step-w)/2)] h-[2px] -translate-y-1/2 bg-surface-3 z-0">
+                {/* Scroll-driven fill */}
+                <div
+                  className="absolute inset-y-0 left-0 bg-solid transition-all duration-700 ease-out"
+                  style={{ width: `${(activeStep / (steps.length - 1)) * 100}%` }}
+                />
+                {/* Hover highlight: the single segment feeding into the hovered
+                    node. Kept separate from the fill above so the two drivers
+                    never fight over one width, and so this can run at hover
+                    speed while the fill keeps its slower scroll timing.
+                    `--solid` and `--fg` are the same value in both themes, so over
+                    an already-filled stretch this would otherwise be a 1px thickness
+                    change and read as nothing — the doubled height and soft halo are
+                    what actually make it register. */}
+                <div
+                  className="absolute top-1/2 h-[4px] -translate-y-1/2 rounded-full bg-fg transition-all duration-250 ease-out"
+                  style={{
+                    left: `${(Math.max((hoverSegment ?? 1) - 1, 0) / (steps.length - 1)) * 100}%`,
+                    width: hoverSegment === null ? '0%' : `${(1 / (steps.length - 1)) * 100}%`,
+                    opacity: hoverSegment === null ? 0 : 1,
+                    boxShadow: '0 0 10px color-mix(in srgb, var(--fg) 30%, transparent)',
+                  }}
+                />
+              </div>
 
-          <div className="flex flex-col gap-4 lg:gap-6 relative z-10">
-            {steps.map((step, index) => {
-              const isActive = index <= activeStep;
-              const isEven = index % 2 === 0;
-              const Icon = step.icon;
+              {steps.map((step, index) => {
+                const isActive = index <= activeStep;
+                const isHovered = hovered === index;
+                // Cards not under the cursor recede while a sibling is hovered.
+                // Nodes are deliberately excluded: they sit on the rail, and
+                // dimming them would break the timeline's continuity.
+                const receded = hovered !== null && !isHovered;
+                const Icon = step.icon;
+                const lit = isHovered || isActive;
 
-              return (
-                <div 
-                  key={index} 
-                  className={`process-step flex w-full transition-all duration-1000 relative ${
-                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16'
-                  }`}
-                  style={{ transitionDelay: `${index * 100}ms` }}
-                >
-                  {/* Left Side (Desktop Only, Even items) */}
-                  <div className={`hidden lg:flex w-1/2 items-center justify-end pr-16 ${!isEven && 'invisible'}`}>
-                    <div className={`text-right transition-all duration-700 ${isActive ? 'opacity-100 translate-x-0' : 'opacity-40 -translate-x-4'}`}>
-                      <span className="text-sm font-bold text-slate-400 mb-2 block uppercase tracking-wider">Phase 0{index + 1}</span>
-                      <h3 className="text-2xl font-bold text-slate-900 mb-3">{step.title}</h3>
-                      <p className="text-slate-600 leading-relaxed mb-6 max-w-md ml-auto">
-                        {step.description}
-                      </p>
-                      <div className="flex flex-wrap gap-2 justify-end">
-                        {step.tags.map((tag, i) => (
-                          <span key={i} className="text-xs font-semibold bg-slate-50 border border-slate-200 text-slate-600 px-3 py-1.5 rounded-full">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Center Node */}
-                  <div 
-                    className="absolute left-[28px] lg:left-1/2 top-0 w-16 h-16 shrink-0 rounded-full border-4 flex items-center justify-center transition-all duration-500 z-10 bg-white" 
-                    style={{
-                      borderColor: isActive ? '#0f172a' : '#e2e8f0',
-                      boxShadow: isActive ? '0 0 20px rgba(0,0,0,0.1)' : 'none',
-                      transform: `translateX(-50%) ${isActive ? 'scale(1.1)' : 'scale(1)'}`
+                return (
+                  <div
+                    key={index}
+                    className="process-step w-[var(--step-w)] shrink-0 snap-start flex flex-col relative z-10"
+                    // Pointer type is checked because on touch, `mouseenter` fires
+                    // on tap and never gets a matching leave — a swipe through this
+                    // carousel would strand one card scaled and dim every other one.
+                    onPointerEnter={(e) => { if (e.pointerType === 'mouse') setHovered(index); }}
+                    // Re-arms the highlight after a scroll cleared it: the cursor can
+                    // already be sitting inside this card, and moving within an element
+                    // fires only pointermove, never another pointerenter.
+                    onPointerMove={(e) => {
+                      if (e.pointerType === 'mouse' && hovered !== index) setHovered(index);
                     }}
+                    onPointerLeave={() => setHovered((h) => (h === index ? null : h))}
                   >
-                    <Icon className={`w-6 h-6 transition-colors duration-500 ${isActive ? 'text-slate-900' : 'text-slate-400'}`} />
-                  </div>
+                    {/* Node. The pop lives on this wrapper and the active/hover
+                        scale on the element inside it, so the entrance animation
+                        and the interactive scale compose instead of one winning
+                        the cascade. Keeping the stagger delay off the inner
+                        element also stops hover from feeling ~500ms late on the
+                        last node. Opacities multiply the same way. */}
+                    <div
+                      className={`w-16 h-16 mx-auto ${isVisible ? 'node-pop' : ''}`}
+                      // Hidden by visibility, not opacity: the node must never
+                      // render part-transparent, so it goes straight from unpainted
+                      // to fully opaque when the pop takes over.
+                      style={{
+                        visibility: isVisible ? undefined : 'hidden',
+                        animationDelay: `${index * 100}ms`,
+                      }}
+                    >
+                      <div
+                        className="w-full h-full rounded-full border-4 flex items-center justify-center bg-surface transition-all duration-250 ease-out"
+                        style={{
+                          borderColor: lit ? 'var(--fg)' : 'var(--line)',
+                          boxShadow: isHovered
+                            ? '0 0 0 6px var(--divider), 0 0 16px var(--divider)'
+                            : isActive
+                              ? '0 0 20px var(--divider)'
+                              : 'none',
+                          transform: `scale(${isHovered ? 1.25 : isActive ? 1.1 : 1})`,
+                        }}
+                      >
+                        <Icon className={`w-6 h-6 transition-colors duration-250 ease-out ${lit ? 'text-fg' : 'text-fg-faint'}`} />
+                      </div>
+                    </div>
 
-                  {/* Right Side (Mobile ALWAYS, Desktop Odd items) */}
-                  <div className={`w-full lg:w-1/2 pl-24 lg:pl-16 flex flex-col justify-center min-h-[64px] ${isEven ? 'lg:hidden' : 'lg:flex'}`}>
-                    <div className={`transition-all duration-700 ${isActive ? 'opacity-100 lg:translate-x-0' : 'opacity-40 lg:translate-x-4'}`}>
-                      <span className="text-sm font-bold text-slate-400 mb-2 block uppercase tracking-wider">Phase 0{index + 1}</span>
-                      <h3 className="text-2xl font-bold text-slate-900 mb-3">{step.title}</h3>
-                      <p className="text-slate-600 leading-relaxed mb-6 max-w-md">
-                        {step.description}
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {step.tags.map((tag, i) => (
-                          <span key={i} className="text-xs font-semibold bg-slate-50 border border-slate-200 text-slate-600 px-3 py-1.5 rounded-full">
-                            {tag}
-                          </span>
-                        ))}
+                    {/* Same split as the node: entrance outside, hover inside. */}
+                    <div
+                      className={`mt-8 flex-1 flex transition-all duration-700 ${
+                        isVisible ? 'translate-y-0' : 'translate-y-12'
+                      }`}
+                      style={{
+                        opacity: isVisible ? 1 : 0,
+                        transitionDelay: `${index * 100}ms`,
+                      }}
+                    >
+                      <div
+                        className="flex-1 rounded-2xl border border-line bg-surface-2 p-6 transition-all duration-250 ease-out"
+                        style={{
+                          // Scroll progress and hover both want this; resolved to one
+                          // value so neither can clobber the other. A hovered card is
+                          // always fully lit, and receding never brightens a card that
+                          // the timeline hasn't reached yet — hence the min().
+                          opacity: isHovered ? 1 : Math.min(isActive ? 1 : 0.5, receded ? 0.6 : 1),
+                          transform: isHovered ? 'translateY(-10px)' : 'translateY(0)',
+                          boxShadow: isHovered ? 'var(--shadow-card-hover)' : 'none',
+                        }}
+                      >
+                        <span className="text-sm font-bold text-fg-faint mb-2 block uppercase tracking-wider">Phase 0{index + 1}</span>
+                        <h3 className="text-xl font-bold text-fg mb-3">{step.title}</h3>
+                        <p className="text-fg-muted leading-relaxed mb-6">
+                          {step.description}
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          {step.tags.map((tag, i) => (
+                            <span key={i} className="text-xs font-semibold bg-surface border border-line text-fg-muted px-3 py-1.5 rounded-full">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
-                  
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
+
+          <p className="mt-4 text-center text-xs font-semibold uppercase tracking-[0.2em] text-fg-faint">
+            Scroll to explore &rarr;
+          </p>
         </div>
       </div>
     </section>

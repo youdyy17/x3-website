@@ -6,6 +6,7 @@ import ServicesSection from "./components/ServicesSection";
 import PortfolioSection from "./components/PortfolioSection";
 import TechStackSection from "./components/TechStackSection";
 import WhyUsSection from "./components/WhyUsSection";
+import TeamSection from "./components/TeamSection";
 import ProcessSection from "./components/ProcessSection";
 import CTASection from "./components/CTASection";
 import FooterSection from "./components/FooterSection";
@@ -36,6 +37,8 @@ export default function App() {
         <TechStackSection />
         <div className="section-divider" />
         <WhyUsSection />
+        <div className="section-divider" />
+        <TeamSection />
         <div className="section-divider" />
         <ProcessSection />
         <div className="section-divider" />

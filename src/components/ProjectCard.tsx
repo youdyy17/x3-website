@@ -66,7 +66,7 @@ export default function ProjectCard({ project, layout }: Props) {
   );
 
   return (
-    <div className={`group flex transition-all duration-500 bg-white border border-slate-200 hover:border-slate-300 hover:shadow-xl rounded-2xl overflow-hidden ${
+    <div className={`group flex transition-all duration-500 bg-surface border border-line hover:border-line-strong hover:shadow-xl rounded-2xl overflow-hidden ${
       isList ? 'flex-col md:flex-row' : 'flex-col h-full'
     }`}>
       {/* Image Area */}
@@ -88,7 +88,7 @@ export default function ProjectCard({ project, layout }: Props) {
         'p-6 sm:p-8'
       }`}>
         <div className="flex items-center justify-between gap-3 mb-4">
-          <span className={`font-semibold bg-slate-50 border border-slate-200 text-slate-700 px-3 py-1 rounded-full ${
+          <span className={`font-semibold bg-surface-2 border border-line text-fg-secondary px-3 py-1 rounded-full ${
             isCompact ? 'text-[11px]' : 'text-xs'
           }`}>
             {project.category}
@@ -105,13 +105,13 @@ export default function ProjectCard({ project, layout }: Props) {
           )}
         </div>
         
-        <h3 className={`font-bold text-slate-900 group-hover:text-slate-700 transition-colors ${
+        <h3 className={`font-bold text-fg group-hover:text-fg-secondary transition-colors ${
           isCompact ? 'text-lg mb-2' : 'text-2xl mb-3'
         }`}>
           {project.title}
         </h3>
         
-        <p className={`text-slate-600 leading-relaxed flex-grow ${
+        <p className={`text-fg-muted leading-relaxed flex-grow ${
           isCompact ? 'text-sm mb-4 line-clamp-2' : 'mb-6 line-clamp-3'
         }`}>
           {project.description}
@@ -119,19 +119,19 @@ export default function ProjectCard({ project, layout }: Props) {
         
         <div className={`flex flex-wrap gap-2 ${isCompact ? 'mb-4' : 'mb-6'}`}>
           {project.tags.map((tag, i) => (
-            <span key={i} className={`font-medium text-slate-500 ${isCompact ? 'text-xs' : 'text-sm'}`}>
+            <span key={i} className={`font-medium text-fg-subtle ${isCompact ? 'text-xs' : 'text-sm'}`}>
               {tag}{i < project.tags.length - 1 ? ' •' : ''}
             </span>
           ))}
         </div>
 
         {!isCompact && (
-          <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
-            <button className="flex items-center gap-2 text-sm font-semibold text-slate-900 hover:text-slate-600 transition-colors cursor-pointer">
+          <div className="mt-auto pt-4 border-t border-line-soft flex items-center justify-between">
+            <button className="flex items-center gap-2 text-sm font-semibold text-fg hover:text-fg-muted transition-colors cursor-pointer">
               View Case Study <ArrowRight className="w-4 h-4" />
             </button>
-            <button className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center hover:bg-slate-100 transition-colors border border-slate-200 cursor-pointer">
-              <ExternalLink className="w-3.5 h-3.5 text-slate-600" />
+            <button className="w-8 h-8 rounded-full bg-surface-2 flex items-center justify-center hover:bg-surface-3 transition-colors border border-line cursor-pointer">
+              <ExternalLink className="w-3.5 h-3.5 text-fg-muted" />
             </button>
           </div>
         )}

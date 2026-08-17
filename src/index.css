@@ -1,46 +1,240 @@
 @import "tailwindcss";
 
+/* Class-based dark mode. Tailwind v4 defaults `dark:` to prefers-color-scheme;
+   we drive it off a `.dark` class on <html> so the toggle can override the OS. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-silkscreen: "Silkscreen", cursive;
 }
 
+/* ===================================================================
+   Semantic design tokens
+   -------------------------------------------------------------------
+   Light values are the existing slate palette, unchanged, so Light Mode
+   renders exactly as before. Dark is a designed neutral-blue scale, not
+   an inversion: the canvas sits above pure black, cards lift off it, and
+   text steps down in four weights instead of fading to grey.
+   =================================================================== */
+:root {
+  color-scheme: light;
+
+  /* Surfaces */
+  --canvas: #fafafa;          /* page background */
+  --surface: #ffffff;         /* cards, panels, white sections */
+  --surface-2: #f8fafc;       /* chips, subtle fills        (slate-50)  */
+  --surface-3: #f1f5f9;       /* hover / pressed            (slate-100) */
+  --section-alt: #f8fafc;     /* banded section background  (slate-50)  */
+
+  /* Text */
+  --fg: #0f172a;              /* headings, primary          (slate-900) */
+  --fg-secondary: #334155;    /* strong body                (slate-700) */
+  --fg-muted: #475569;        /* body copy                  (slate-600) */
+  --fg-subtle: #64748b;       /* labels, captions           (slate-500) */
+  --fg-faint: #94a3b8;        /* tertiary, inactive icons   (slate-400) */
+
+  /* Borders */
+  --line: #e2e8f0;            /* default border             (slate-200) */
+  --line-strong: #cbd5e1;     /* hover border               (slate-300) */
+  --line-soft: #f1f5f9;       /* hairline dividers          (slate-100) */
+
+  /* Form controls (no forms ship today — defined so future ones inherit) */
+  --field: #ffffff;
+  --field-line: #e2e8f0;
+  --field-placeholder: #94a3b8;
+
+  /* Solid / inverted fills: active pills, selected states */
+  --solid: #0f172a;
+  --on-solid: #ffffff;
+
+  /* Primary button */
+  --btn-from: #2b2b2b;
+  --btn-to: #101010;
+  --btn-fg: #ffffff;
+  --btn-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --btn-shadow-hover: 0 6px 24px rgba(0, 0, 0, 0.45);
+
+  /* Chrome */
+  --nav-bg: rgba(255, 255, 255, 0.6);
+  --nav-line: rgba(255, 255, 255, 0.6);
+  --nav-shadow: 0 8px 32px rgba(15, 23, 42, 0.06);
+  --drawer-bg: rgba(255, 255, 255, 0.7);
+  --drawer-line: rgba(255, 255, 255, 0.6);
+  --overlay: rgba(15, 23, 42, 0.6);
+
+  /* Elevation */
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-card-hover: 0 10px 30px rgba(15, 23, 42, 0.10);
+
+  /* Focus ring */
+  --focus: #6c3aed;
+
+  /* Decorative */
+  --aurora-1: rgba(120, 50, 255, 0.05);
+  --aurora-2: rgba(50, 150, 255, 0.04);
+  --aurora-3: rgba(200, 50, 150, 0.03);
+  --divider: rgba(15, 23, 42, 0.10);
+  --scrollbar-track: #eef1f5;
+  --scrollbar-thumb: rgba(15, 23, 42, 0.2);
+  --scrollbar-thumb-hover: rgba(15, 23, 42, 0.35);
+  --grid-line: rgba(15, 23, 42, 0.07);
+}
+
+.dark {
+  color-scheme: dark;
+
+  --canvas: #0b0e14;
+  --surface: #12161f;
+  --surface-2: #161b26;
+  --surface-3: #1e2531;
+  /* Sits between canvas and surface so a banded section still reads as
+     *behind* the cards on it — the elevation order light mode gets for free. */
+  --section-alt: #0e121a;
+
+  --fg: #e8ecf3;
+  --fg-secondary: #c8d0dc;
+  --fg-muted: #a3adbf;
+  --fg-subtle: #8b95a6;
+  --fg-faint: #78859a;
+
+  --line: #242c39;
+  --line-strong: #364052;
+  --line-soft: #1a202b;
+
+  --field: #161b26;
+  --field-line: #2d3648;
+  --field-placeholder: #78859a;
+
+  --solid: #e8ecf3;
+  --on-solid: #0b0e14;
+
+  /* A near-black button would vanish on a near-black canvas, so the primary
+     button inverts to a light fill — same monochrome brand, still the loudest
+     thing on the page. */
+  --btn-from: #ffffff;
+  --btn-to: #d7dde7;
+  --btn-fg: #0b0e14;
+  --btn-shadow: 0 4px 16px rgba(0, 0, 0, 0.55);
+  --btn-shadow-hover: 0 6px 24px rgba(0, 0, 0, 0.7);
+
+  --nav-bg: rgba(11, 14, 20, 0.65);
+  --nav-line: rgba(255, 255, 255, 0.08);
+  --nav-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --drawer-bg: rgba(15, 19, 27, 0.85);
+  --drawer-line: rgba(255, 255, 255, 0.08);
+  --overlay: rgba(0, 0, 0, 0.7);
+
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-card-hover: 0 10px 30px rgba(0, 0, 0, 0.6);
+
+  --focus: #a78bfa;
+
+  --aurora-1: rgba(120, 50, 255, 0.16);
+  --aurora-2: rgba(50, 150, 255, 0.13);
+  --aurora-3: rgba(200, 50, 150, 0.10);
+  --divider: rgba(255, 255, 255, 0.10);
+  --scrollbar-track: #0b0e14;
+  --scrollbar-thumb: rgba(255, 255, 255, 0.16);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.28);
+  --grid-line: rgba(255, 255, 255, 0.06);
+}
+
+/* Expose the tokens to Tailwind as utilities (bg-surface, text-fg-muted,
+   border-line, …). `inline` keeps the var() indirection in the emitted CSS,
+   which is what lets the .dark swap take effect at runtime. */
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-section-alt: var(--section-alt);
+
+  --color-fg: var(--fg);
+  --color-fg-secondary: var(--fg-secondary);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-subtle: var(--fg-subtle);
+  --color-fg-faint: var(--fg-faint);
+
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-line-soft: var(--line-soft);
+
+  --color-field: var(--field);
+  --color-field-line: var(--field-line);
+
+  --color-solid: var(--solid);
+  --color-on-solid: var(--on-solid);
+
+  --color-overlay: var(--overlay);
+  --color-focus: var(--focus);
+
+  --shadow-card: var(--shadow-card);
+  --shadow-card-hover: var(--shadow-card-hover);
+}
+
 @layer base {
   body {
     @apply font-sans antialiased;
-    background-color: #fafafa;
-    color: white;
+    background-color: var(--canvas);
+    color: var(--fg);
+    /* Themed as a pair so the whole page crossfades instead of each element
+       animating on its own schedule. */
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   html {
     scroll-behavior: smooth;
   }
 
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+
+  /* Form controls inherit the theme by default, ready for any future form */
+  input,
+  textarea,
+  select {
+    background-color: var(--field);
+    border-color: var(--field-line);
+    color: var(--fg);
+  }
+
+  ::placeholder {
+    color: var(--field-placeholder);
+  }
+
   /* Custom scrollbar */
+  /* `width` only reaches vertical bars — `height` is what sizes the horizontal
+     ones, e.g. the process timeline's scroll track. */
   ::-webkit-scrollbar {
     width: 6px;
+    height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #121212;
+    background: var(--scrollbar-track);
   }
   ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.15);
+    background: var(--scrollbar-thumb);
     border-radius: 3px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.25);
+    background: var(--scrollbar-thumb-hover);
   }
 }
 
 /* ===== Aurora Background ===== */
+/* Deliberately NOT animated. A static blur() rasterizes once and then composites
+   for free; animating it forces the compositor to re-blur three viewport-sized
+   layers every frame, forever, and makes every backdrop-filter on the page
+   re-sample its backdrop along with them. The drift was imperceptible anyway. */
 .aurora-blob {
   position: absolute;
   filter: blur(120px);
   z-index: 0;
   opacity: 0.5;
   border-radius: 50%;
-  animation: auroraFloat 25s infinite ease-in-out alternate;
-  will-change: transform;
 }
 
 .aurora-blob-1 {
@@ -48,8 +242,7 @@
   left: -10%;
   width: 45vw;
   height: 45vw;
-  background: radial-gradient(circle, rgba(120, 50, 255, 0.05) 0%, rgba(0, 0, 0, 0) 70%);
-  animation-delay: 0s;
+  background: radial-gradient(circle, var(--aurora-1) 0%, transparent 70%);
 }
 
 .aurora-blob-2 {
@@ -57,8 +250,7 @@
   right: -10%;
   width: 50vw;
   height: 50vw;
-  background: radial-gradient(circle, rgba(50, 150, 255, 0.04) 0%, rgba(0, 0, 0, 0) 70%);
-  animation-delay: -7s;
+  background: radial-gradient(circle, var(--aurora-2) 0%, transparent 70%);
 }
 
 .aurora-blob-3 {
@@ -66,98 +258,36 @@
   left: 35%;
   width: 35vw;
   height: 35vw;
-  background: radial-gradient(circle, rgba(200, 50, 150, 0.03) 0%, rgba(0, 0, 0, 0) 70%);
-  animation-delay: -14s;
+  background: radial-gradient(circle, var(--aurora-3) 0%, transparent 70%);
 }
 
-@keyframes auroraFloat {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-  33% {
-    transform: translate(3%, 6%) scale(1.05);
-  }
-  66% {
-    transform: translate(-3%, 3%) scale(0.95);
-  }
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
+/* ===== Primary button ===== */
+/* One place owns the brand button fill, so the five call sites stop carrying
+   their own inline gradient. */
+.btn-solid {
+  background: linear-gradient(to bottom, var(--btn-from), var(--btn-to));
+  color: var(--btn-fg);
+  box-shadow: var(--btn-shadow);
+  /* Hover only deepens the shadow — matching what these five buttons did
+     before, so light mode is unchanged. No transform, hence none listed. */
+  transition: background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
 }
 
-/* ===== Section fade-in animation ===== */
-.section-fade-in {
-  opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+.btn-solid:hover {
+  box-shadow: var(--btn-shadow-hover);
 }
 
-.section-fade-in.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ===== 3D Device Mockup ===== */
-.device-scene {
-  perspective: 1200px;
-  transform-style: preserve-3d;
-}
-
-.device-float {
-  animation: deviceFloat 6s ease-in-out infinite;
-  will-change: transform;
-}
-
-@keyframes deviceFloat {
-  0%, 100% {
-    transform: translateY(0px) rotateX(2deg) rotateY(-8deg);
-  }
-  50% {
-    transform: translateY(-12px) rotateX(0deg) rotateY(-6deg);
-  }
-}
-
-.phone-float {
-  animation: phoneFloat 6s ease-in-out infinite;
-  animation-delay: -1.5s;
-  will-change: transform;
-}
-
-@keyframes phoneFloat {
-  0%, 100% {
-    transform: translateY(0px) rotateX(3deg) rotateY(-5deg);
-  }
-  50% {
-    transform: translateY(-8px) rotateX(1deg) rotateY(-3deg);
-  }
-}
-
-/* ===== Gradient text utility ===== */
-.gradient-text {
-  background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, #ffffff 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* ===== Subtle grid pattern ===== */
-.grid-pattern {
-  background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 48px 48px;
-}
-
-/* ===== Glow effects ===== */
-.glow-violet {
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.05),
-              0 0 80px rgba(255, 255, 255, 0.02);
-}
-
-.glow-violet-sm {
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05),
-              0 0 40px rgba(255, 255, 255, 0.02);
+/* ===== Section divider ===== */
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--divider) 20%,
+    var(--divider) 80%,
+    transparent
+  );
 }
 
 /* ===== Scroll indicator ===== */
@@ -176,105 +306,74 @@
   }
 }
 
-/* ===== Process timeline connector ===== */
-.timeline-connector {
-  position: relative;
-}
-.timeline-connector::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  right: -50%;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.05));
+/* ===== Typing cursor ===== */
+.typing-cursor {
+  display: inline-block;
+  width: 3px;
+  height: 0.85em;
+  margin-left: 2px;
+  margin-bottom: -0.1em;
+  background: #000;
+  animation: cursorBlink 0.9s step-end infinite;
 }
 
-/* ===== Glass card base ===== */
-.glass-card {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+@keyframes cursorBlink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 
-.glass-card:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
-              0 0 24px rgba(0, 0, 0, 0.05);
+/* ===== Node pop =====
+   Timeline nodes scale in past their resting size as the section reveals.
+   This deliberately lives on a wrapper element rather than the node itself:
+   the node's own scale is set inline and changes with scroll progress and
+   hover, and an animation would win the cascade over that. On a wrapper the
+   two transforms just compose, and the node is free to keep animating after
+   the pop has landed.
+
+   The node scales in without fading — it is fully opaque the whole way. Hiding
+   during the stagger is done with `visibility` rather than opacity precisely
+   for that reason: `both` holds the 0% frame through the delay, so a node is
+   simply not painted until its turn instead of sitting visibly undersized for
+   up to half a second. Visibility flips on one frame in, so nothing fades. */
+.node-pop {
+  animation: nodePop 400ms ease-out both;
 }
 
-/* ===== Tech tag ===== */
-.tech-tag {
-  display: inline-flex;
-  align-items: center;
-  padding: 4px 10px;
-  border-radius: 9999px;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  background: rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  color: rgba(255, 255, 255, 0.6);
-  transition: all 0.2s;
+@keyframes nodePop {
+  0% {
+    visibility: hidden;
+    transform: scale(0.6);
+  }
+  1% {
+    visibility: visible;
+  }
+  60% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
-.tech-tag:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.2);
-}
+/* ===== Reduced motion =====
+   DeviceModel handles this itself in JS; this covers the CSS side. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 
-/* ===== Button styles ===== */
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 12px 28px;
-  border-radius: 9999px;
-  font-size: 14px;
-  font-weight: 600;
-  color: white;
-  background: linear-gradient(to bottom, #2B2B2B, #101010);
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-}
-
-.btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
-}
-
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 12px 28px;
-  border-radius: 9999px;
-  font-size: 14px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.btn-secondary:hover {
-  border-color: rgba(255, 255, 255, 0.3);
-  background: rgba(0, 0, 0, 0.1);
-  transform: translateY(-1px);
-}
-
-/* ===== Section divider ===== */
-.section-divider {
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.05) 20%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.05) 80%, transparent);
+  /* The rule above collapses the duration but not the stagger, which would
+     otherwise leave the nodes blank for up to half a second before appearing. */
+  .node-pop {
+    animation-delay: 0ms !important;
+  }
 }

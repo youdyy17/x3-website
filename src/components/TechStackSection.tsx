@@ -63,9 +63,9 @@ export default function TechStackSection() {
       <div className="max-w-7xl mx-auto">
         <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <div className="mb-4">
-            <span className="text-xs font-bold tracking-[0.2em] text-slate-500 uppercase">Our Expertise</span>
+            <span className="text-xs font-bold tracking-[0.2em] text-fg-subtle uppercase">Our Expertise</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-fg">
             Technologies We Work With
           </h2>
         </div>
@@ -77,11 +77,10 @@ export default function TechStackSection() {
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                style={activeTab === tab ? { background: 'linear-gradient(to bottom, #2B2B2B, #101010)' } : undefined}
-                className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
-                  activeTab === tab 
-                    ? 'text-white shadow-[0_4px_16px_rgba(0,0,0,0.3)]' 
-                    : 'bg-white shadow-sm border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer ${
+                  activeTab === tab
+                    ? 'btn-solid'
+                    : 'bg-surface border border-line shadow-card text-fg-muted hover:text-fg hover:bg-surface-2'
                 }`}
               >
                 {tab}
@@ -94,17 +93,20 @@ export default function TechStackSection() {
             {technologies[activeTab as keyof typeof technologies].map((tech, index) => (
               <div 
                 key={`${activeTab}-${tech.name}`}
-                className="group bg-white shadow-sm border border-slate-200 rounded-2xl p-4 sm:p-5 flex flex-col items-center justify-center gap-3 hover:shadow-md hover:border-slate-300 hover:-translate-y-1 transition-all duration-300 animate-[fadeIn_0.5s_ease-out_forwards] w-36 h-36 sm:w-40 sm:h-40"
+                className="group bg-surface border border-line shadow-card rounded-2xl p-4 sm:p-5 flex flex-col items-center justify-center gap-3 hover:shadow-md hover:border-line-strong hover:-translate-y-1 transition-all duration-300 animate-[fadeIn_0.5s_ease-out_forwards] w-36 h-36 sm:w-40 sm:h-40"
                 style={{ animationDelay: `${index * 50}ms`, opacity: 0 }}
               >
-                <div className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center flex-shrink-0 mb-1">
+                {/* Several of these brand marks are near-black (Next.js, AWS,
+                    Adobe XD) and would vanish on a dark card. A light plate in
+                    dark mode keeps every logo visible without recolouring it. */}
+                <div className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center flex-shrink-0 mb-1 dark:bg-white dark:rounded-xl dark:p-2 transition-colors">
                   <img 
                     src={tech.icon.startsWith('http') ? tech.icon : `https://cdn.simpleicons.org/${tech.icon}`} 
                     alt={`${tech.name} logo`} 
                     className="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-300" 
                   />
                 </div>
-                <span className="text-slate-900 font-semibold text-sm sm:text-[15px] text-center px-1 line-clamp-2 leading-tight w-full break-words">
+                <span className="text-fg font-semibold text-sm sm:text-[15px] text-center px-1 line-clamp-2 leading-tight w-full break-words">
                   {tech.name}
                 </span>
               </div>

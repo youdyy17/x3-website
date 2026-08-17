@@ -58,9 +58,9 @@ export default function ServicesSection() {
       <div className="max-w-7xl mx-auto">
         <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <div className="mb-4">
-            <span className="text-xs font-bold tracking-[0.2em] text-slate-500 uppercase">What We Do</span>
+            <span className="text-xs font-bold tracking-[0.2em] text-fg-subtle uppercase">What We Do</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-fg">
             Technology Services & Solutions
           </h2>
         </div>
@@ -71,19 +71,19 @@ export default function ServicesSection() {
             return (
               <div 
                 key={index}
-                className={`bg-slate-50 border border-slate-200 border border-slate-200 rounded-2xl p-8 backdrop-blur-sm group hover:-translate-y-2 hover:bg-slate-100 hover:border-slate-200 transition-all duration-500 delay-[${index * 100}ms] ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+                className={`bg-surface-2 border border-line rounded-2xl p-8 group hover:-translate-y-2 hover:bg-surface-3 hover:border-line transition-all duration-500 delay-[${index * 100}ms] ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
                 style={{ transitionDelay: `${index * 100}ms` }}
               >
-                <div className="w-14 h-14 rounded-xl bg-slate-50 border border-slate-200 border border-slate-200 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <Icon className="text-slate-900 w-7 h-7" />
+                <div className="w-14 h-14 rounded-xl bg-surface-2 border border-line flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Icon className="text-fg w-7 h-7" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-4">{service.title}</h3>
-                <p className="text-slate-600 mb-8 leading-relaxed">
+                <h3 className="text-xl font-bold text-fg mb-4">{service.title}</h3>
+                <p className="text-fg-muted mb-8 leading-relaxed">
                   {service.description}
                 </p>
                 <div className="flex flex-wrap gap-2 mt-auto">
                   {service.tags.map((tag, i) => (
-                    <span key={i} className="text-xs font-medium text-slate-500 bg-white shadow-sm border border-slate-200 px-3 py-1 rounded-full">
+                    <span key={i} className="text-xs font-medium text-fg-subtle bg-surface border border-line shadow-card px-3 py-1 rounded-full">
                       {tag}
                     </span>
                   ))}

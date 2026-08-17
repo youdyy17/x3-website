@@ -1,5 +1,5 @@
 import { Mail, Phone, MapPin } from 'lucide-react';
-import logo from '../assets/x3.png';
+import logo from '../assets/x3-silver-logo.png';
 
 /* Inline SVG social icons since lucide-react doesn't ship brand icons */
 function TwitterIcon() {
@@ -60,19 +60,16 @@ export default function FooterSection() {
   return (
     <footer
       id="contact"
-      className="bg-transparent border-t border-slate-200 pt-20 pb-10 px-5 sm:px-8 lg:px-16 xl:px-24 relative z-10"
+      className="bg-transparent border-t border-line pt-20 pb-10 px-5 sm:px-8 lg:px-16 xl:px-24 relative z-10"
     >
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16">
           {/* Column 1: Brand */}
           <div className="lg:pr-8">
             <div className="flex items-center gap-2.5 mb-6">
-              <img src={logo} alt="X3 Logo" className="h-9 w-9 object-contain" />
-              <span className="text-slate-900 font-bold text-lg tracking-tight">
-                X3 Software Solution
-              </span>
+              <img src={logo} alt="X3 Logo" className="h-9 w-auto object-contain" />
             </div>
-            <p className="text-slate-500 mb-8 leading-relaxed text-sm">
+            <p className="text-fg-subtle mb-8 leading-relaxed text-sm">
               Transforming businesses through innovative custom software
               solutions. We build technology that scales with your ambition.
             </p>
@@ -82,7 +79,7 @@ export default function FooterSection() {
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="w-9 h-9 rounded-lg bg-white border border-slate-200 border border-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-900 hover:bg-slate-50 border border-slate-200 hover:border-white/15 transition-all"
+                  className="w-9 h-9 rounded-lg bg-surface border border-line flex items-center justify-center text-fg-subtle hover:text-fg hover:bg-surface-2 hover:border-line-strong transition-all"
                 >
                   <Icon />
                 </a>
@@ -92,7 +89,7 @@ export default function FooterSection() {
 
           {/* Column 2: Services */}
           <div>
-            <h4 className="text-slate-900 font-semibold text-sm uppercase tracking-wider mb-6">
+            <h4 className="text-fg font-semibold text-sm uppercase tracking-wider mb-6">
               Services
             </h4>
             <ul className="space-y-3">
@@ -100,7 +97,7 @@ export default function FooterSection() {
                 <li key={item}>
                   <button
                     onClick={() => scrollTo('services')}
-                    className="text-slate-500 hover:text-slate-900 text-sm transition-colors cursor-pointer"
+                    className="text-fg-subtle hover:text-fg text-sm transition-colors cursor-pointer"
                   >
                     {item}
                   </button>
@@ -111,7 +108,7 @@ export default function FooterSection() {
 
           {/* Column 3: Company */}
           <div>
-            <h4 className="text-slate-900 font-semibold text-sm uppercase tracking-wider mb-6">
+            <h4 className="text-fg font-semibold text-sm uppercase tracking-wider mb-6">
               Company
             </h4>
             <ul className="space-y-3">
@@ -120,14 +117,14 @@ export default function FooterSection() {
                   {id ? (
                     <button
                       onClick={() => scrollTo(id)}
-                      className="text-slate-500 hover:text-slate-900 text-sm transition-colors cursor-pointer"
+                      className="text-fg-subtle hover:text-fg text-sm transition-colors cursor-pointer"
                     >
                       {label}
                     </button>
                   ) : (
                     <a
                       href="#"
-                      className="text-slate-500 hover:text-slate-900 text-sm transition-colors"
+                      className="text-fg-subtle hover:text-fg text-sm transition-colors"
                     >
                       {label}
                     </a>
@@ -139,25 +136,25 @@ export default function FooterSection() {
 
           {/* Column 4: Contact */}
           <div>
-            <h4 className="text-slate-900 font-semibold text-sm uppercase tracking-wider mb-6">
+            <h4 className="text-fg font-semibold text-sm uppercase tracking-wider mb-6">
               Contact
             </h4>
             <ul className="space-y-4">
-              <li className="flex items-center gap-3 text-slate-500 text-sm">
-                <Mail size={16} className="text-slate-500 shrink-0" />
+              <li className="flex items-center gap-3 text-fg-subtle text-sm">
+                <Mail size={16} className="text-fg-subtle shrink-0" />
                 <a
                   href="mailto:hello@x3solutions.com"
-                  className="hover:text-slate-900 transition-colors"
+                  className="hover:text-fg transition-colors"
                 >
                   hello@x3solutions.com
                 </a>
               </li>
-              <li className="flex items-center gap-3 text-slate-500 text-sm">
-                <Phone size={16} className="text-slate-500 shrink-0" />
+              <li className="flex items-center gap-3 text-fg-subtle text-sm">
+                <Phone size={16} className="text-fg-subtle shrink-0" />
                 <span>+1 (555) 000-0000</span>
               </li>
-              <li className="flex items-start gap-3 text-slate-500 text-sm">
-                <MapPin size={16} className="text-slate-500 shrink-0 mt-0.5" />
+              <li className="flex items-start gap-3 text-fg-subtle text-sm">
+                <MapPin size={16} className="text-fg-subtle shrink-0 mt-0.5" />
                 <span>
                   San Francisco, CA
                   <br />
@@ -169,20 +166,20 @@ export default function FooterSection() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-slate-900/30 text-xs">
+        <div className="pt-8 border-t border-line flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-fg-subtle text-xs">
             © {currentYear} X3 Software Solution. All rights reserved.
           </p>
           <div className="flex gap-6">
             <a
               href="#"
-              className="text-slate-900/30 text-xs hover:text-slate-600 transition-colors"
+              className="text-fg-subtle text-xs hover:text-fg-muted transition-colors"
             >
               Privacy Policy
             </a>
             <a
               href="#"
-              className="text-slate-900/30 text-xs hover:text-slate-600 transition-colors"
+              className="text-fg-subtle text-xs hover:text-fg-muted transition-colors"
             >
               Terms of Service
             </a>

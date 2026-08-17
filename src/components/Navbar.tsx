@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
-import logo from '../assets/x3.png';
+import logo from '../assets/x3-silver-logo.png';
+import ThemeToggle from './ThemeToggle';
 
-const navItems = ['Services', 'Portfolio', 'Technologies', 'About', 'Contact'];
+const navItems = ['About', 'Technologies', 'Services', 'Portfolio', 'Team', 'Contact'];
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -30,10 +31,11 @@ export default function Navbar() {
   };
 
   return (
+    <>
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-transparent/80 backdrop-blur-xl border-b border-slate-200 py-3'
+          ? 'bg-[var(--nav-bg)] backdrop-blur-xl backdrop-saturate-150 border-b border-[var(--nav-line)] shadow-[var(--nav-shadow)] py-3'
           : 'bg-transparent py-5'
       }`}
     >
@@ -43,53 +45,59 @@ export default function Navbar() {
           className="flex items-center gap-2.5 cursor-pointer"
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         >
-          <img src={logo} alt="X3 Logo" className="h-16 w-16 object-contain" />
-          <span className="text-slate-900 font-bold text-lg tracking-tight">
-            <span className="text-slate-600 font-medium ml-1.5 hidden sm:inline">Software Solution</span>
-          </span>
+          <img src={logo} alt="X3 Logo" className="h-11 w-auto object-contain" />
+          {/* <span className="text-fg font-bold text-lg tracking-tight">
+            <span className="text-fg-muted font-medium ml-1.5 hidden sm:inline">Software Solution</span>
+          </span> */}
         </div>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-1">
+        <div className="hidden lg:flex items-center gap-1">
           {navItems.map((item) => (
             <button
               key={item}
               onClick={() => scrollTo(item.toLowerCase())}
-              className="text-slate-600 hover:text-slate-900 transition-colors text-sm font-medium px-4 py-2 rounded-lg hover:bg-white border border-slate-200 cursor-pointer"
+              className="text-fg-muted hover:text-fg transition-colors text-sm font-medium px-4 py-2 rounded-lg hover:bg-surface-2 cursor-pointer"
             >
               {item}
             </button>
           ))}
+          <ThemeToggle className="ml-2" />
           <button
             onClick={() => scrollTo('cta')}
-            className="ml-3 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:shadow-[0_4px_16px_rgba(0,0,0,0.3)] transition-all cursor-pointer"
-            style={{ background: 'linear-gradient(to bottom, #2B2B2B, #101010)' }}
+            className="btn-solid ml-3 px-5 py-2 rounded-lg text-sm font-semibold transition-all cursor-pointer"
           >
             Start a Project
           </button>
         </div>
 
-        {/* Mobile Toggle */}
-        <button
-          className="md:hidden relative z-50 w-10 h-10 rounded-lg bg-white/[0.06] backdrop-blur-md flex items-center justify-center text-slate-900 cursor-pointer border border-slate-200"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          <Menu
-            className={`absolute h-5 w-5 transition-all duration-300 ${
-              mobileMenuOpen ? 'rotate-90 scale-0 opacity-0' : 'rotate-0 scale-100 opacity-100'
-            }`}
-          />
-          <X
-            className={`absolute h-5 w-5 transition-all duration-300 ${
-              mobileMenuOpen ? 'rotate-0 scale-100 opacity-100' : '-rotate-90 scale-0 opacity-0'
-            }`}
-          />
-        </button>
+        {/* Mobile Controls — the toggle stays above the drawer so it works while open */}
+        <div className="lg:hidden relative z-50 flex items-center gap-2">
+          <ThemeToggle />
+          <button
+            className="w-10 h-10 rounded-lg bg-[var(--nav-bg)] backdrop-blur-md backdrop-saturate-150 flex items-center justify-center text-fg cursor-pointer border border-[var(--nav-line)] shadow-sm"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileMenuOpen}
+          >
+            <Menu
+              className={`absolute h-5 w-5 transition-all duration-300 ${
+                mobileMenuOpen ? 'rotate-90 scale-0 opacity-0' : 'rotate-0 scale-100 opacity-100'
+              }`}
+            />
+            <X
+              className={`absolute h-5 w-5 transition-all duration-300 ${
+                mobileMenuOpen ? 'rotate-0 scale-100 opacity-100' : '-rotate-90 scale-0 opacity-0'
+              }`}
+            />
+          </button>
+        </div>
       </div>
+    </nav>
 
       {/* Mobile Overlay */}
       <div
-        className={`fixed inset-0 z-40 bg-black/60 backdrop-blur-sm transition-opacity duration-300 md:hidden ${
+        className={`fixed inset-0 z-40 bg-[var(--overlay)] backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
           mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
         onClick={() => setMobileMenuOpen(false)}
@@ -97,7 +105,7 @@ export default function Navbar() {
 
       {/* Mobile Drawer */}
       <div
-        className={`fixed right-0 top-0 z-40 flex flex-col h-full w-72 bg-white shadow-2xl border-l border-slate-200 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] md:hidden ${
+        className={`fixed right-0 top-0 z-40 flex flex-col h-full w-72 bg-[var(--drawer-bg)] backdrop-blur-2xl backdrop-saturate-150 shadow-2xl border-l border-[var(--drawer-line)] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] lg:hidden ${
           mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
@@ -106,7 +114,7 @@ export default function Navbar() {
             <button
               key={item}
               onClick={() => scrollTo(item.toLowerCase())}
-              className={`flex items-center rounded-xl px-4 py-3.5 text-base font-medium text-slate-700 hover:bg-slate-50 border border-slate-200 hover:text-slate-900 transition-all duration-500 cursor-pointer ${
+              className={`flex items-center rounded-xl px-4 py-3.5 text-base font-medium text-fg-secondary hover:bg-surface-2 hover:text-fg transition-all duration-500 cursor-pointer ${
                 mobileMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-6'
               }`}
               style={{ transitionDelay: mobileMenuOpen ? `${(index + 1) * 60}ms` : '0ms' }}
@@ -123,13 +131,12 @@ export default function Navbar() {
         >
           <button
             onClick={() => scrollTo('cta')}
-            className="w-full text-white py-3.5 rounded-xl text-sm font-semibold cursor-pointer hover:shadow-[0_4px_16px_rgba(0,0,0,0.3)] transition-all"
-            style={{ background: 'linear-gradient(to bottom, #2B2B2B, #101010)' }}
+            className="btn-solid w-full py-3.5 rounded-xl text-sm font-semibold cursor-pointer transition-all"
           >
             Start a Project
           </button>
         </div>
       </div>
-    </nav>
+    </>
   );
 }

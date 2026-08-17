@@ -85,16 +85,16 @@ export default function PortfolioSection() {
   const filteredProjects = projects.filter(p => activeCategory === 'All' || p.category === activeCategory);
 
   return (
-    <section id="portfolio" className="py-20 lg:py-28 px-5 sm:px-8 lg:px-16 xl:px-24 bg-slate-50" ref={ref}>
+    <section id="portfolio" className="py-20 lg:py-28 px-5 sm:px-8 lg:px-16 xl:px-24 bg-section-alt" ref={ref}>
       <div className="max-w-7xl mx-auto">
         <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <div className="mb-4">
-            <span className="text-xs font-bold tracking-[0.2em] text-slate-500 uppercase">Our Work</span>
+            <span className="text-xs font-bold tracking-[0.2em] text-fg-subtle uppercase">Our Work</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-fg mb-6">
             Featured Projects
           </h2>
-          <p className="text-slate-600 max-w-2xl mx-auto text-lg">
+          <p className="text-fg-muted max-w-2xl mx-auto text-lg">
             Explore our latest digital solutions and see how we help businesses transform and grow through innovative technology.
           </p>
         </div>
@@ -110,8 +110,8 @@ export default function PortfolioSection() {
                 onClick={() => setActiveCategory(category)}
                 className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer ${
                   activeCategory === category
-                    ? 'bg-slate-900 text-white shadow-md'
-                    : 'bg-white border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                    ? 'bg-solid text-on-solid shadow-md'
+                    : 'bg-surface border border-line text-fg-muted hover:text-fg hover:bg-surface-3'
                 }`}
               >
                 {category}
@@ -120,24 +120,24 @@ export default function PortfolioSection() {
           </div>
 
           {/* Layout Switcher */}
-          <div className="flex bg-white border border-slate-200 rounded-xl p-1 shadow-sm">
+          <div className="flex bg-surface border border-line rounded-xl p-1 shadow-sm">
             <button 
               onClick={() => setLayout('grid')}
-              className={`p-2.5 rounded-lg transition-all duration-300 cursor-pointer ${layout === 'grid' ? 'bg-slate-100 text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50'}`}
+              className={`p-2.5 rounded-lg transition-all duration-300 cursor-pointer ${layout === 'grid' ? 'bg-surface-3 text-fg shadow-sm' : 'text-fg-faint hover:text-fg-muted hover:bg-surface-2'}`}
               title="Grid View"
             >
               <LayoutGrid className="w-5 h-5" />
             </button>
             <button 
               onClick={() => setLayout('list')}
-              className={`p-2.5 rounded-lg transition-all duration-300 cursor-pointer ${layout === 'list' ? 'bg-slate-100 text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50'}`}
+              className={`p-2.5 rounded-lg transition-all duration-300 cursor-pointer ${layout === 'list' ? 'bg-surface-3 text-fg shadow-sm' : 'text-fg-faint hover:text-fg-muted hover:bg-surface-2'}`}
               title="List View"
             >
               <ListIcon className="w-5 h-5" />
             </button>
             <button 
               onClick={() => setLayout('compact')}
-              className={`p-2.5 rounded-lg transition-all duration-300 cursor-pointer ${layout === 'compact' ? 'bg-slate-100 text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50'}`}
+              className={`p-2.5 rounded-lg transition-all duration-300 cursor-pointer ${layout === 'compact' ? 'bg-surface-3 text-fg shadow-sm' : 'text-fg-faint hover:text-fg-muted hover:bg-surface-2'}`}
               title="Compact View"
             >
               <GridIcon className="w-5 h-5" />
@@ -164,7 +164,7 @@ export default function PortfolioSection() {
               </div>
             ))
           ) : (
-            <div className="col-span-full py-20 text-center text-slate-500">
+            <div className="col-span-full py-20 text-center text-fg-subtle">
               No projects found in this category.
             </div>
           )}

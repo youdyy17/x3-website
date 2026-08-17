@@ -38,13 +38,13 @@ export default function WhyUsSection() {
   }, []);
 
   return (
-    <section id="why-us" className="py-20 lg:py-28 px-5 sm:px-8 lg:px-16 xl:px-24 bg-white" ref={ref}>
+    <section id="why-us" className="py-20 lg:py-28 px-5 sm:px-8 lg:px-16 xl:px-24 bg-surface" ref={ref}>
       <div className="max-w-7xl mx-auto">
         <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <div className="mb-4">
-            <span className="text-xs font-bold tracking-[0.2em] text-slate-500 uppercase">Why Choose Us</span>
+            <span className="text-xs font-bold tracking-[0.2em] text-fg-subtle uppercase">Why Choose Us</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-fg">
             What Sets X3 Apart
           </h2>
         </div>
@@ -55,15 +55,15 @@ export default function WhyUsSection() {
             return (
               <div 
                 key={index}
-                className={`bg-white shadow-sm border border-slate-200 border border-slate-200 rounded-2xl p-8 lg:p-10 backdrop-blur-sm flex flex-col sm:flex-row gap-6 items-start hover:bg-slate-50 border border-slate-200 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+                className={`bg-surface border border-line shadow-card rounded-2xl p-8 lg:p-10 flex flex-col sm:flex-row gap-6 items-start hover:bg-surface-2 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
                 style={{ transitionDelay: `${index * 150}ms` }}
               >
-                <div className="w-16 h-16 shrink-0 rounded-2xl bg-slate-50 border border-slate-200 border border-slate-200 flex items-center justify-center">
-                  <Icon className="text-slate-900 w-8 h-8" />
+                <div className="w-16 h-16 shrink-0 rounded-2xl bg-surface-2 border border-line flex items-center justify-center">
+                  <Icon className="text-fg w-8 h-8" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-slate-900 mb-3">{item.title}</h3>
-                  <p className="text-slate-600 leading-relaxed text-lg">
+                  <h3 className="text-2xl font-bold text-fg mb-3">{item.title}</h3>
+                  <p className="text-fg-muted leading-relaxed text-lg">
                     {item.description}
                   </p>
                 </div>
