@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import youdy from '../assets/youdy.jpg';
 import { useTheme } from '../theme/theme-context';
+import SectionHeading from './SectionHeading';
 
 // Baked into the data URI, so the palette has to be passed in rather than read
 // from CSS. Mirrors --solid / --on-solid for each theme.
@@ -65,15 +66,11 @@ export default function TeamSection() {
     <section id="team" className="py-20 lg:py-28 px-5 sm:px-8 lg:px-16 xl:px-24 bg-surface" ref={ref}>
       <div className="max-w-7xl mx-auto">
         <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <div className="mb-4">
-            <span className="text-xs font-bold tracking-[0.2em] text-fg-subtle uppercase">Our Team</span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-fg mb-6">
-            Meet the People Behind X3
-          </h2>
-          <p className="text-fg-muted max-w-2xl mx-auto text-lg leading-relaxed">
-            A small, dedicated team combining leadership, engineering, and design to bring your ideas to life.
-          </p>
+          <SectionHeading
+            eyebrow="Our Team"
+            title="Meet the People Behind X3"
+            description="A small, dedicated team combining leadership, engineering, and design to bring your ideas to life."
+          />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">

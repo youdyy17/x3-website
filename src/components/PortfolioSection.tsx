@@ -1,6 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
-import { LayoutGrid, List as ListIcon, Grid as GridIcon } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { LayoutGrid, List as ListIcon, Grid as GridIcon, GalleryHorizontal } from 'lucide-react';
 import ProjectCard, { type Project } from './ProjectCard';
+import ProjectCarousel from './ProjectCarousel';
+import SectionHeading from './SectionHeading';
 
 const projects: Project[] = [
   {
@@ -70,7 +72,7 @@ const categories = ['All', 'Web Platform', 'Mobile App', 'E-Commerce', 'Dashboar
 export default function PortfolioSection() {
   const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const [layout, setLayout] = useState<'grid' | 'list' | 'compact'>('grid');
+  const [layout, setLayout] = useState<'grid' | 'list' | 'compact' | 'carousel'>('carousel');
   const [activeCategory, setActiveCategory] = useState<string>('All');
 
   useEffect(() => {
@@ -82,21 +84,21 @@ export default function PortfolioSection() {
     return () => observer.disconnect();
   }, []);
 
-  const filteredProjects = projects.filter(p => activeCategory === 'All' || p.category === activeCategory);
+  // Memoised so the carousel's reset effect keys off a stable identity.
+  const filteredProjects = useMemo(
+    () => projects.filter(p => activeCategory === 'All' || p.category === activeCategory),
+    [activeCategory]
+  );
 
   return (
     <section id="portfolio" className="py-20 lg:py-28 px-5 sm:px-8 lg:px-16 xl:px-24 bg-section-alt" ref={ref}>
       <div className="max-w-7xl mx-auto">
         <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <div className="mb-4">
-            <span className="text-xs font-bold tracking-[0.2em] text-fg-subtle uppercase">Our Work</span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-fg mb-6">
-            Featured Projects
-          </h2>
-          <p className="text-fg-muted max-w-2xl mx-auto text-lg">
-            Explore our latest digital solutions and see how we help businesses transform and grow through innovative technology.
-          </p>
+          <SectionHeading
+            eyebrow="Our Work"
+            title="Featured Projects"
+            description="Explore our latest digital solutions and see how we help businesses transform and grow through innovative technology."
+          />
         </div>
 
         {/* Control Bar */}
@@ -121,7 +123,14 @@ export default function PortfolioSection() {
 
           {/* Layout Switcher */}
           <div className="flex bg-surface border border-line rounded-xl p-1 shadow-sm">
-            <button 
+            <button
+              onClick={() => setLayout('carousel')}
+              className={`p-2.5 rounded-lg transition-all duration-300 cursor-pointer ${layout === 'carousel' ? 'bg-surface-3 text-fg shadow-sm' : 'text-fg-faint hover:text-fg-muted hover:bg-surface-2'}`}
+              title="Carousel View"
+            >
+              <GalleryHorizontal className="w-5 h-5" />
+            </button>
+            <button
               onClick={() => setLayout('grid')}
               className={`p-2.5 rounded-lg transition-all duration-300 cursor-pointer ${layout === 'grid' ? 'bg-surface-3 text-fg shadow-sm' : 'text-fg-faint hover:text-fg-muted hover:bg-surface-2'}`}
               title="Grid View"
@@ -146,16 +155,23 @@ export default function PortfolioSection() {
         </div>
 
         {/* Projects Display */}
-        <div 
+        <div
           className={`transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16'} ${
             layout === 'grid' ? 'grid md:grid-cols-2 gap-8' :
             layout === 'list' ? 'flex flex-col gap-8' :
-            'grid sm:grid-cols-2 lg:grid-cols-3 gap-6'
+            layout === 'compact' ? 'grid sm:grid-cols-2 lg:grid-cols-3 gap-6' :
+            ''
           }`}
         >
-          {filteredProjects.length > 0 ? (
+          {filteredProjects.length === 0 ? (
+            <div className="col-span-full py-20 text-center text-fg-subtle">
+              No projects found in this category.
+            </div>
+          ) : layout === 'carousel' ? (
+            <ProjectCarousel projects={filteredProjects} />
+          ) : (
             filteredProjects.map((project, index) => (
-              <div 
+              <div
                 key={`${project.title}-${layout}`}
                 className="animate-[fadeIn_0.5s_ease-out_forwards]"
                 style={{ animationDelay: `${index * 100}ms`, opacity: 0 }}
@@ -163,10 +179,6 @@ export default function PortfolioSection() {
                 <ProjectCard project={project} layout={layout} />
               </div>
             ))
-          ) : (
-            <div className="col-span-full py-20 text-center text-fg-subtle">
-              No projects found in this category.
-            </div>
           )}
         </div>
       </div>

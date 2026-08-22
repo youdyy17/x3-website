@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Code2, Globe, Smartphone, Palette, Cloud, Lightbulb } from 'lucide-react';
+import SectionHeading from './SectionHeading';
 
 const services = [
   {
@@ -57,12 +58,7 @@ export default function ServicesSection() {
     <section id="services" className="py-20 lg:py-28 px-5 sm:px-8 lg:px-16 xl:px-24" ref={ref}>
       <div className="max-w-7xl mx-auto">
         <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <div className="mb-4">
-            <span className="text-xs font-bold tracking-[0.2em] text-fg-subtle uppercase">What We Do</span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-fg">
-            Technology Services & Solutions
-          </h2>
+          <SectionHeading eyebrow="What We Do" title="Technology Services & Solutions" titleSpacing="none" />
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">

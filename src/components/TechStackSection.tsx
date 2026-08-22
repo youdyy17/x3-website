@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import SectionHeading from './SectionHeading';
 
 const technologies = {
   Frontend: [
@@ -62,12 +63,7 @@ export default function TechStackSection() {
     <section id="technologies" className="py-20 lg:py-28 px-5 sm:px-8 lg:px-16 xl:px-24 bg-transparent" ref={ref}>
       <div className="max-w-7xl mx-auto">
         <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <div className="mb-4">
-            <span className="text-xs font-bold tracking-[0.2em] text-fg-subtle uppercase">Our Expertise</span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-fg">
-            Technologies We Work With
-          </h2>
+          <SectionHeading eyebrow="Our Expertise" title="Technologies We Work With" titleSpacing="none" />
         </div>
 
         <div className={`transition-all duration-700 delay-200 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>

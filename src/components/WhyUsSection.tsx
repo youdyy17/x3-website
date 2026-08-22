@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Shield, Zap, Users, Award } from 'lucide-react';
+import SectionHeading from './SectionHeading';
 
 const differentiators = [
   {
@@ -41,12 +42,7 @@ export default function WhyUsSection() {
     <section id="why-us" className="py-20 lg:py-28 px-5 sm:px-8 lg:px-16 xl:px-24 bg-surface" ref={ref}>
       <div className="max-w-7xl mx-auto">
         <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <div className="mb-4">
-            <span className="text-xs font-bold tracking-[0.2em] text-fg-subtle uppercase">Why Choose Us</span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-fg">
-            What Sets X3 Apart
-          </h2>
+          <SectionHeading eyebrow="Why Choose Us" title="What Sets X3 Apart" titleSpacing="none" />
         </div>
 
         <div className="grid md:grid-cols-2 gap-6 lg:gap-8">

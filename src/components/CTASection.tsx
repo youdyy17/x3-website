@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import SectionHeading from './SectionHeading';
 
 export default function CTASection() {
   const ref = useRef<HTMLDivElement>(null);
@@ -22,12 +23,13 @@ export default function CTASection() {
       </div>
 
       <div className={`max-w-4xl mx-auto text-center relative z-10 transition-all duration-1000 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
-        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-fg mb-8">
-          Ready to Build Something <span className="text-fg">Great?</span>
-        </h2>
-        <p className="text-xl text-fg-muted mb-12 max-w-2xl mx-auto leading-relaxed">
-          Let's discuss your next project and explore how X3 can help transform your business with cutting-edge technology.
-        </p>
+        <SectionHeading
+          title={<>Ready to Build Something <span className="text-fg">Great?</span></>}
+          description="Let's discuss your next project and explore how X3 can help transform your business with cutting-edge technology."
+          size="large"
+          titleSpacing="loose"
+          descriptionSpacing="loose"
+        />
         <div className="flex flex-col sm:flex-row gap-5 justify-center">
           <button 
             className="btn-solid px-10 py-4 rounded-xl text-lg font-bold hover:opacity-90 cursor-pointer"

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Lightbulb, PenTool, Code2, TestTube, Rocket, HeartHandshake } from 'lucide-react';
+import SectionHeading from './SectionHeading';
 
 const steps = [
   {
@@ -55,10 +56,6 @@ export default function ProcessSection() {
       ([entry]) => {
         if (!entry.isIntersecting) return;
         setIsVisible(true);
-        // Layout is settled by the time the section scrolls into view, so this
-        // is the earliest honest reading — the mount-time one can land before
-        // the track has a width and report step 0 for a rail that should
-        // already be part-filled.
         measureRef.current();
       },
       { threshold: 0.1 }
@@ -67,16 +64,11 @@ export default function ProcessSection() {
     return () => observer.disconnect();
   }, []);
 
-  // A step counts as reached once its node has scrolled into the visible part
-  // of the track — the horizontal port of the old `rect.top < innerHeight * 0.6`
-  // rule. Deliberately not scrollLeft/scrollWidth: several cards are on screen
-  // at desktop widths, and a scroll ratio would leave visible ones dimmed.
+
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
 
-    // Scroll fires far more often than once per frame, and each measure() call
-    // forces synchronous layout. Coalesce to one measurement per frame.
     let frame = 0;
 
     const measure = () => {
@@ -120,15 +112,12 @@ export default function ProcessSection() {
     <section id="process" className="py-24 lg:py-32 px-5 sm:px-8 lg:px-16 xl:px-24 bg-surface overflow-hidden" ref={sectionRef}>
       <div className="max-w-7xl mx-auto">
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-          <div className="mb-4">
-            <span className="text-xs font-bold tracking-[0.2em] text-fg-subtle uppercase">How We Work</span>
-          </div>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-fg mb-6">
-            From first call to production.
-          </h2>
-          <p className="text-fg-muted max-w-2xl mx-auto text-lg leading-relaxed">
-            A proven, transparent methodology designed to deliver premium digital solutions on time and beyond expectations.
-          </p>
+          <SectionHeading
+            eyebrow="How We Work"
+            title="From first call to production."
+            description="A proven, transparent methodology designed to deliver premium digital solutions on time and beyond expectations."
+            size="large"
+          />
         </div>
 
         <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
@@ -140,12 +129,6 @@ export default function ProcessSection() {
             tabIndex={0}
             role="region"
             aria-label="Our process, step by step"
-            // `overflow-y-clip` is explicit because `overflow-x-auto` alone would
-            // compute the other axis to `auto`, making this a vertical scroll
-            // container as well — one the hovered node's ring and the cards' lift
-            // are enough to give a stray few pixels of scrollable height. `clip`
-            // (not `hidden`) leaves no scrollport at all, so keyboard focus and the
-            // trackpad can't nudge it either.
             className="overflow-x-auto overflow-y-clip snap-x snap-mandatory pb-5 rounded-2xl"
           >
             {/* The rail lives in here, alongside the cards, so it scrolls with
@@ -188,9 +171,6 @@ export default function ProcessSection() {
               {steps.map((step, index) => {
                 const isActive = index <= activeStep;
                 const isHovered = hovered === index;
-                // Cards not under the cursor recede while a sibling is hovered.
-                // Nodes are deliberately excluded: they sit on the rail, and
-                // dimming them would break the timeline's continuity.
                 const receded = hovered !== null && !isHovered;
                 const Icon = step.icon;
                 const lit = isHovered || isActive;

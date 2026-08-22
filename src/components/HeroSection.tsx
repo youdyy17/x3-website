@@ -96,7 +96,7 @@ export default function HeroSection() {
           </div>
 
           {/* Headline */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-[4.25rem] font-bold text-fg leading-[1.08] tracking-tight mb-6">
+          <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl xl:text-[4.25rem] font-bold text-fg leading-[1.08] tracking-tight mb-6">
             We Build Software
             <br />
             That Drives Business
