@@ -345,6 +345,20 @@
   }
 }
 
+/* ===== Logo cursor =====
+   Same shape as .typing-cursor — the logo reuses the hero's own blink rather
+   than inventing a new accent. Themed (--focus) since the mark, unlike the
+   hero's cursor, has to read correctly in both modes. */
+.logo-cursor {
+  display: inline-block;
+  width: 3px;
+  height: 0.85em;
+  margin-left: 2px;
+  margin-bottom: -0.1em;
+  background: var(--focus);
+  animation: cursorBlink 0.9s step-end infinite;
+}
+
 /* ===== Node pop =====
    Timeline nodes scale in past their resting size as the section reveals.
    This deliberately lives on a wrapper element rather than the node itself:

@@ -1,5 +1,5 @@
 import { Mail, Phone, MapPin } from 'lucide-react';
-import logo from '../assets/x3-silver-logo.png';
+import Logo from './Logo';
 
 /* Inline SVG social icons since lucide-react doesn't ship brand icons */
 function TwitterIcon() {
@@ -67,7 +67,7 @@ export default function FooterSection() {
           {/* Column 1: Brand */}
           <div className="lg:pr-8">
             <div className="flex items-center gap-2.5 mb-6">
-              <img src={logo} alt="X3 Logo" className="h-9 w-auto object-contain" />
+              <Logo className="text-xl" />
             </div>
             <p className="text-fg-subtle mb-8 leading-relaxed text-sm">
               Transforming businesses through innovative custom software

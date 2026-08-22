@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
-import logo from '../assets/x3-silver-logo.png';
+import Logo from './Logo';
 import ThemeToggle from './ThemeToggle';
 
 const navItems = ['About', 'Technologies', 'Services', 'Portfolio', 'Team', 'Contact'];
@@ -33,10 +33,8 @@ export default function Navbar() {
   return (
     <>
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-[var(--nav-bg)] backdrop-blur-xl backdrop-saturate-150 border-b border-[var(--nav-line)] shadow-[var(--nav-shadow)] py-3'
-          : 'bg-transparent py-5'
+      className={`fixed z-50 left-3 right-3 sm:left-4 sm:right-4 lg:left-6 lg:right-6 rounded-full bg-[var(--nav-bg)] backdrop-blur-xl backdrop-saturate-150 border border-[var(--nav-line)] shadow-[var(--nav-shadow)] transition-all duration-300 ${
+        isScrolled ? 'top-2 py-2.5' : 'top-4 py-3.5'
       }`}
     >
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-16 xl:px-24 flex items-center justify-between">
@@ -45,10 +43,7 @@ export default function Navbar() {
           className="flex items-center gap-2.5 cursor-pointer"
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         >
-          <img src={logo} alt="X3 Logo" className="h-11 w-auto object-contain" />
-          {/* <span className="text-fg font-bold text-lg tracking-tight">
-            <span className="text-fg-muted font-medium ml-1.5 hidden sm:inline">Software Solution</span>
-          </span> */}
+          <Logo className="text-4xl" />
         </div>
 
         {/* Desktop Navigation */}
@@ -65,7 +60,7 @@ export default function Navbar() {
           <ThemeToggle className="ml-2" />
           <button
             onClick={() => scrollTo('cta')}
-            className="btn-solid ml-3 px-5 py-2 rounded-lg text-sm font-semibold transition-all cursor-pointer"
+            className="btn-solid ml-3 px-5 py-2 rounded-full text-sm font-semibold transition-all cursor-pointer"
           >
             Start a Project
           </button>
