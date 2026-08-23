@@ -56,10 +56,10 @@ export default function AboutSection() {
           
           {/* Text Content */}
           <div>
-            <SectionHeading eyebrow="Who We Are" title={<>About <span className="text-fg">X3</span></>} />
+            <SectionHeading eyebrow="Who We Are" title={<>About <span className="text-fg">CodeX3</span></>} />
             <div className="space-y-6 text-fg-muted text-lg leading-relaxed">
               <p>
-                X3 Software Solution is a premier technology company founded on the principle that exceptional software can transform businesses. We specialize in designing, developing, and deploying custom software solutions that address complex challenges.
+                CodeX3 Digital is a premier technology company founded on the principle that exceptional software can transform businesses. We specialize in designing, developing, and deploying custom software solutions that address complex challenges.
               </p>
               <p>
                 Our team brings together technical expertise, innovative thinking, and a commitment to reliability. From enterprise applications to scalable cloud infrastructure, we build technology that scales with your ambition and drives tangible results.

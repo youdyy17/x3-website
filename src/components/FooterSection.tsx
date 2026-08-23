@@ -168,7 +168,7 @@ export default function FooterSection() {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-line flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-fg-subtle text-xs">
-            © {currentYear} X3 Software Solution. All rights reserved.
+            © {currentYear} CodeX3 Digital. All rights reserved.
           </p>
           <div className="flex gap-6">
             <a

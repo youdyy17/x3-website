@@ -25,7 +25,7 @@ export default function CTASection() {
       <div className={`max-w-4xl mx-auto text-center relative z-10 transition-all duration-1000 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
         <SectionHeading
           title={<>Ready to Build Something <span className="text-fg">Great?</span></>}
-          description="Let's discuss your next project and explore how X3 can help transform your business with cutting-edge technology."
+          description="Let's discuss your next project and explore how CodeX3 can help transform your business with cutting-edge technology."
           size="large"
           titleSpacing="loose"
           descriptionSpacing="loose"

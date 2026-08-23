@@ -68,7 +68,7 @@ export default function TeamSection() {
         <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <SectionHeading
             eyebrow="Our Team"
-            title="Meet the People Behind X3"
+            title="Meet the People Behind CodeX3"
             description="A small, dedicated team combining leadership, engineering, and design to bring your ideas to life."
           />
         </div>

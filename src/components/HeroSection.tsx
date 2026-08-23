@@ -113,7 +113,7 @@ export default function HeroSection() {
 
           {/* Subtext */}
           <p className="text-lg text-fg-muted mb-10 max-w-xl leading-relaxed">
-            X3 Software Solution crafts custom, scalable digital products —
+            CodeX3 Digital crafts custom, scalable digital products —
             from enterprise platforms to mobile apps — that accelerate growth
             and transform the way you do business.
           </p>

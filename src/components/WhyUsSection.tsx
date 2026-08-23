@@ -42,7 +42,7 @@ export default function WhyUsSection() {
     <section id="why-us" className="py-20 lg:py-28 px-5 sm:px-8 lg:px-16 xl:px-24 bg-surface" ref={ref}>
       <div className="max-w-7xl mx-auto">
         <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <SectionHeading eyebrow="Why Choose Us" title="What Sets X3 Apart" titleSpacing="none" />
+          <SectionHeading eyebrow="Why Choose Us" title="What Sets CodeX3 Apart" titleSpacing="none" />
         </div>
 
         <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
